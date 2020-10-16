@@ -4,8 +4,10 @@
       @wrongquestionsdetach="wrongquestionsdetach"
       :wrongquestions="wrongquestions"
       :collects="collects"
+      :historyindex="index"
       @revisecollects="revisecollects"
       @push-wrongquestion="pushWrongquestion"
+      @historyindex="historyindex"
     />
   </div>
 </template>
@@ -19,9 +21,13 @@ export default {
     return {
       collects: [], //收藏数组
       wrongquestions: [], //错题本
+      index: Number, //历史下标
     };
   },
   methods: {
+    historyindex(i) {
+      this.index = i;
+    },
     revisecollects(i) {
       if (this.collects.find((item) => item == i)) {
         this.collects = this.collects.filter((item) => {
@@ -56,18 +62,23 @@ export default {
   },
 
   created() {
-    if(JSON.parse(localStorage.getItem('collects'))){
-      this.collects = JSON.parse(localStorage.getItem('collects'))
+    if (JSON.parse(localStorage.getItem("collects"))) {
+      this.collects = JSON.parse(localStorage.getItem("collects"));
     }
-    if(JSON.parse(localStorage.getItem('wrongquestions'))){
-      this.wrongquestions = JSON.parse(localStorage.getItem('wrongquestions'))
+    if (JSON.parse(localStorage.getItem("wrongquestions"))) {
+      this.wrongquestions = JSON.parse(localStorage.getItem("wrongquestions"));
+    }
+    if (JSON.parse(localStorage.getItem("historyindexgo"))) {
+      this.index = JSON.parse(localStorage.getItem("historyindexgo"));
     }
   },
 
   updated() {
-    localStorage.setItem("collects",JSON.stringify(this.collects))
-    localStorage.setItem("wrongquestions",JSON.stringify(this.wrongquestions))
-  }
+    localStorage.setItem("collects", JSON.stringify(this.collects));
+    localStorage.setItem("wrongquestions", JSON.stringify(this.wrongquestions));
+    localStorage.setItem("historyindexgo", JSON.stringify(this.index));
+    console.log(this.index);
+  },
 };
 </script>
 <style lang="scss" scoped>

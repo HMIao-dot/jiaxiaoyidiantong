@@ -6,7 +6,7 @@
           <use xlink:href="#icon-tubiaozhizuo-"></use>
         </svg>
       </span>
-      <p>随机练习</p>
+      <p>章节练习</p>
     </header>
     <van-popup
       v-model="showList"
@@ -149,15 +149,10 @@
           <svg class="icon" aria-hidden="true">
             <use xlink:href="#icon-liebiao"></use>
           </svg>
-          {{ index + 1 }}/100
+          {{ index + 1 }}/1630
         </span>
       </div>
     </footer>
-    <!-- <van-popup v-model="showList" position="button" :style="{ width: '100%', 'max-height':'71%' }">
-            <ul class="upitem">
-                <li v-for="(item,index) in rdques" :key="index" class="item">{{index+1}}</li>
-            </ul>
-        </van-popup> -->
   </div>
 </template>
 
@@ -166,15 +161,9 @@ import selectOption from "../components/select-option";
 
 export default {
   created() {
-    for (let i = 0; i < 100; i++) {
-      let data = Math.floor(Math.random() * 1629);
-      while (this.rdques.find((item) => item == data)) {
-        data = Math.floor(Math.random() * 1629);
-      }
-      this.rdques.push(`${data}`);
-      // console.log(this.rdques.length)
+    for (let i = 1; i < 1631; i++) {
+      this.rdques.push(`${i}`);
     }
-    // fetch(`/g.asp?id=1550`)
     fetch(`/g.asp?id=${this.rdques[this.index]}`)
       .then((res) => {
         // console.log(res)
@@ -186,11 +175,16 @@ export default {
         this.data = data;
         console.log(this.data);
       });
+    if (this.historyindex > 0) {
+      this.historyindexgo = true;
+    }
   },
-  props: ["collects"],
+
+  props: ["collects",],
+
   data() {
     return {
-      rdques: [], //请求到的100个随机数
+      rdques: [], //所有题目的id
       index: 0, //当前题目的下标
       data: Object, //当前题目的数据
       show: false, //数据是否请求完成
@@ -204,6 +198,7 @@ export default {
       single: "",
     };
   },
+
   computed: {
     collect() {
       return this.collects.find((item) => item === this.data.id);
@@ -235,13 +230,16 @@ export default {
       }
     },
   },
+
   methods: {
     selectres(i) {
       let data = this.datas.find((item) => item.index == i);
       if (data) {
         if (data.res) {
+          // console.log(2)
           return 2;
         } else {
+          // console.log(1)
           return 1;
         }
       } else {
@@ -329,7 +327,6 @@ export default {
       if (el) {
         // data: Object,
         fetch(`/g.asp?id=${this.rdques[this.index]}`)
-          // fetch(`/g.asp?id=1550`)
           .then((res) => {
             // console.log(res)
             return res.json();
@@ -345,7 +342,6 @@ export default {
           });
       } else {
         fetch(`/g.asp?id=${this.rdques[this.index]}`)
-          // fetch(`/g.asp?id=1550`)
           .then((res) => {
             // console.log(res)
             return res.json();
@@ -392,6 +388,7 @@ export default {
       }
     },
   },
+
   components: {
     selectOption,
   },
@@ -551,7 +548,7 @@ footer {
   height: 50px;
   line-height: 50px;
   border-top: 1px solid #e6e6e6;
-  background: #fff;
+  background-color: #fff;
 
   .fleft {
     float: left;
@@ -657,6 +654,7 @@ footer {
     padding-top: 20px;
     font-weight: 700;
   }
+
   .goon {
     color: grey;
     margin: 20px auto;

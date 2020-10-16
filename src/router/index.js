@@ -12,6 +12,18 @@ const routes = [
     props: true
   },
   {
+    path: '/zjlx/',
+    name: 'zjlx',
+    component: () => import('../views/zjlx.vue'),
+    props: true
+  },
+  {
+    path: '/zxlx/',
+    name: 'zxlx',
+    component: () => import('../views/zxlx.vue'),
+    props: true
+  },
+  {
     path: '/sjlx/',
     name: 'sjlx',
     component: () => import('../views/sjlx.vue')
